@@ -31,15 +31,12 @@ def send_message():
             current_hour = current_time.hour
             
             # สร้างข้อความตามเวลา
-            if current_hour < 12:
-                emoji = "🌅"
-                greeting = "สวัสดีตอนเช้า"
-            elif current_hour < 18:
+            if current_hour < 18:
                 emoji = "☀️"
                 greeting = "สวัสดีตอนบ่าย"
             else:
                 emoji = "🌙"
-                greeting = "สวัสดีตอนเย็น"
+                greeting = "สวัสดีตอนดึก"
             
             message_text = f"{emoji} {greeting}! อย่าลืมชำระเงิน 200 บาทนะครับ 💰\n\nเวลา: {current_time.strftime('%d/%m/%Y %H:%M')} 🕐"
             
