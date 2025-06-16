@@ -3,7 +3,7 @@ name: LINE Payment Reminder
 # กำหนดเวลาการทำงาน
 on:
   schedule:
-    - cron: '0 6,16 * * *'
+    - cron: '0 6,16 * * 0'
   
   # อนุญาตให้รันด้วยตนเอง
   workflow_dispatch:
