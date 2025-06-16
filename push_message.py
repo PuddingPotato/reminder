@@ -5,7 +5,8 @@ from linebot.v3.messaging import Configuration, ApiClient, MessagingApi, PushMes
 
 # Get environment variables from GitHub Secrets
 CHANNEL_ACCESS_TOKEN = os.environ.get('CHANNEL_ACCESS_TOKEN')
-USER_ID = os.environ.get('USER_ID')
+TARGET_USER_ID = os.environ.get('TARGET_USER_ID')
+DEV_USER_ID = os.environ.get('DEV_USER_ID')
 
 def send_message():
     """ส่งข้อความเตือนชำระเงินผ่าน LINE"""
@@ -14,7 +15,7 @@ def send_message():
             print("❗ ไม่พบ CHANNEL_ACCESS_TOKEN")
             return False
             
-        if not USER_ID:
+        if not TARGET_USER_ID:
             print("❗ ไม่พบ USER_ID")
             return False
         
@@ -38,19 +39,27 @@ def send_message():
                 emoji = "🌙"
                 greeting = "สวัสดีตอนดึก"
             
-            message_text = f"{emoji} {greeting}! อย่าลืมชำระเงิน 200 บาทนะครับ 💰\n\nเวลา: {current_time.strftime('%d/%m/%Y %H:%M')} 🕐"
+            user_message_text = f"{emoji} {greeting}! อย่าลืมชำระเงิน 200 บาทนะครับ 💰\n\nเวลา: {current_time.strftime('%d/%m/%Y %H:%M')} 🕐"
+            dev_message_text = f"Line Reminder Triggerd.\n\nเวลา: {current_time.strftime('%d/%m/%Y %H:%M')}"
             
-            # ส่งข้อความ
+            # ส่งข้อความไปหา target
             line_bot_api.push_message_with_http_info(
                 PushMessageRequest(
-                    to=USER_ID,
-                    messages=[TextMessage(text=message_text)]
+                    to=TARGET_USER_ID,
+                    messages=[TextMessage(text=user_message_text)]
+                )
+            )
+            # ส่งข้อความไปหา dev
+            line_bot_api.push_message_with_http_info(
+                PushMessageRequest(
+                    to=DEV_USER_ID,
+                    messages=[TextMessage(text=dev_message_text)]
                 )
             )
             
             print(f"✅ ส่งข้อความเตือนสำเร็จ!")
             print(f"📅 วันที่: {current_time.strftime('%d/%m/%Y %H:%M:%S')}")
-            print(f"💬 ข้อความ: {message_text}")
+            print(f"💬 ข้อความ: {user_message_text}")
             return True
             
     except Exception as e:

@@ -29,7 +29,8 @@ jobs:
     - name: 📱 Send LINE reminder
       env:
         CHANNEL_ACCESS_TOKEN: ${{ secrets.CHANNEL_ACCESS_TOKEN }}
-        USER_ID: ${{ secrets.USER_ID }}
+        TARGET_USER_ID: ${{ secrets.TARGET_USER_ID }}
+        DEV_USER_ID: ${{ secrets.DEV_USER_ID }}
       run: |
         echo "🚀 Starting LINE reminder job..."
         python push_message.py
